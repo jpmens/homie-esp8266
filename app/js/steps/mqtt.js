@@ -6,12 +6,17 @@ export default class MqttStep extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      showLoginInput: false
+      showLoginInput: false,
+      showPassword: false
     };
   }
 
   handleAuthChange (e) {
     this.setState({ showLoginInput: e.target.checked });
+  }
+
+  handleHiddenChange (e) {
+    this.setState({ showPassword: e.target.checked });
   }
 
   handleFormSubmit (e) {
@@ -67,7 +72,14 @@ export default class MqttStep extends React.Component {
                   </p>
 
                   <p className='control'>
-                    <input ref='password' className='input' type='password' placeholder='MQTT password' required />
+                    <input ref='password' className='input' type={ this.state.showPassword ? 'text' : 'password' } placeholder='MQTT password' required />
+                  </p>
+
+                  <p className='control'>
+                    <label className='checkbox'>
+                      <input type='checkbox' onChange={ (e) => this.handleHiddenChange(e) } />
+                      Show password
+                    </label>
                   </p>
 
                   <br/>

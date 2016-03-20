@@ -11,7 +11,8 @@ export default class WifiStep extends React.Component {
       buttonDisabled: true,
       selectedSsid: null,
       showSsidInput: false,
-      showPasswordInput: false
+      showPasswordInput: false,
+      showPassword: false
     };
   }
 
@@ -46,6 +47,10 @@ export default class WifiStep extends React.Component {
       let data = e.target.options[e.target.selectedIndex].dataset;
       this.setState({ showSsidInput: false, showPasswordInput: data.open === 'no', selectedSsid: data.ssid, buttonDisabled: false });
     }
+  }
+
+  handleHiddenChange (e) {
+    this.setState({ showPassword: e.target.checked });
   }
 
   handleFormSubmit (e) {
@@ -152,9 +157,18 @@ export default class WifiStep extends React.Component {
                   {(() => {
                     if (this.state.showPasswordInput) {
                       return (
-                        <p className='control'>
-                          <input ref='password' className='input' type='password' placeholder='Network password (leave blank if open network)' />
-                        </p>
+                        <div>
+                          <p className='control'>
+                            <input ref='password' className='input' type={ this.state.showPassword ? 'text' : 'password' } placeholder='Network password (leave blank if open network)' />
+                          </p>
+
+                          <p className='control'>
+                            <label className='checkbox'>
+                              <input type='checkbox' onChange={ (e) => this.handleHiddenChange(e) } />
+                              Show password
+                            </label>
+                          </p>
+                        </div>
                       );
                     }
                   })()}
